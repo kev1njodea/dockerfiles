@@ -1,0 +1,15 @@
+services:
+  ntfy:
+    image: binwiederhier/ntfy
+    container_name: ntfy
+    restart: unless-stopped
+    ports:
+      - 80:80
+    user: 1002:1002 # optional: replace with your own user/group or uid/gid
+    # volumes:
+    #   - /var/cache/ntfy:/var/cache/ntfy
+    #   - /etc/ntfy:/etc/ntfy
+    environment:
+      - TZ=MST    # optional: set timezone
+    command:
+      - serve
