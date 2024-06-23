@@ -1,0 +1,24 @@
+services:
+  filebrowser:
+    image: filebrowser/filebrowser:latest
+    container_name: filebrowser
+    restart: unless-stopped
+    networks:
+      - traefik_default
+    user: "1001:1001" # 1002:1002 if using Ubuntu 24.04
+    volumes:
+      - ./data:/srv
+      - ./db:/database
+      - ./cfg/.filebrowser.json:/.filebrowser.json
+    labels:
+      - "traefik.http.routers.filebrowser.rule=Host(`filebrowser.kevinjodea.com`)"
+      - "traefik.http.routers.filebrowser.entrypoints=web-secure"
+      - "traefik.http.routers.filebrowser.tls=true"
+      - "traefik.http.services.filebrowser.loadbalancer.server.port=8080"
+      - "traefik.http.services.filebrowser.loadbalancer.server.scheme=http"
+      - "traefik.http.routers.filebrowser.middlewares=auth"
+      - "com.centurylinklabs.watchtower.enable=true"
+
+networks:
+  traefik_default:
+    external: true
