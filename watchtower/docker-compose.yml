@@ -2,9 +2,9 @@ services:
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
+    restart: no
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --run-once --cleanup --label-enable
-    restart: no
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
