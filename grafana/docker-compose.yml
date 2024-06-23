@@ -1,0 +1,25 @@
+services:
+  grafana:
+    image: grafana/grafana-oss:11.0.0
+    container_name: grafana
+    restart: unless-stopped
+    user: "1001"
+    networks:
+      - traefik_default
+    volumes:
+      - ./cfg/grafana.ini:/etc/grafana/grafana.ini
+      - ./data:/var/lib/grafana
+    environment:
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-polystat-panel,grafana-github-datasource,marcusolsson-calendar-panel,marcusolsson-dynamictext-panel,marcusolsson-csv-datasource,speakyourcode-button-panel,briangann-datatable-panel
+    labels:
+      - "traefik.http.routers.homepage.rule=Host(`grafana.kevinjodea.com`)"
+      - "traefik.http.routers.homepage.entrypoints=web-secure"
+      - "traefik.http.routers.homepage.tls=true"
+      - "traefik.http.services.homepage.loadbalancer.server.port=3000"
+      - "traefik.http.services.homepage.loadbalancer.server.scheme=http"
+      - "traefik.http.routers.homepage.middlewares=auth"
+      - "com.centurylinklabs.watchtower.enable=true"
+
+networks:
+  traefik_default:
+    external: true
