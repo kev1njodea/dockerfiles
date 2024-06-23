@@ -1,0 +1,23 @@
+services:
+  nginx:
+    image: nginx:latest
+    networks:
+      - traefik_default
+    volumes:
+      - ./conf.d/:/etc/nginx/conf.d/
+      - ./html:/usr/share/nginx/html
+    environment:
+      - NGINX_PORT=8080
+    labels:
+      - "traefik.http.routers.nginx.rule=Host(`nginx.kevinjodea.com`)"
+      - "traefik.http.routers.nginx.entrypoints=web-secure"
+      - "traefik.http.routers.nginx.tls=true"
+      - "traefik.http.routers.nginx.service=nginx"
+      - "traefik.http.services.nginx.loadbalancer.server.port=8080"
+      - "traefik.http.services.nginx.loadbalancer.server.scheme=http"
+      - "traefik.http.routers.nginx.tls.certresolver=incommon"
+      - "com.centurylinklabs.watchtower.enable=true"
+
+networks:
+  traefik_default:
+    external: true
