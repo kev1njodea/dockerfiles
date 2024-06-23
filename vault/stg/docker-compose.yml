@@ -1,0 +1,12 @@
+services:
+  vault:
+    image: hashicorp/vault:latest
+    container_name: vault
+    restart: always
+    ports:
+      - "8200:8200"
+    cap_add:
+      - IPC_LOCK
+    environment:
+      - VAULT_DEV_ROOT_TOKEN_ID=1
+      - VAULT_DEV_LISTEN_ADDRESS=0.0.0.0
