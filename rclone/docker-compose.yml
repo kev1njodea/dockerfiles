@@ -1,0 +1,28 @@
+services:
+  rclone:
+    image: rclone/rclone:latest
+    container_name: rclone
+    restart: always
+    user: 1002:1002
+    networks:
+      - traefik_default
+    volumes:
+      - ./auth:/var/auth   # htpasswd
+      - ./cfg:/config/rclone  # rclone config
+      - ./data:/data       # webdav folder
+    command: >
+      serve webdav /data
+      --addr=:8080
+      --htpasswd /var/auth/.htpasswd
+    labels:
+      - "traefik.http.routers.rclone.rule=Host(`rclone.kevinjodea.com`)"
+      - "traefik.http.routers.rclone.entrypoints=web-secure"
+      - "traefik.http.routers.rclone.tls=true"
+      - "traefik.http.routers.rclone.service=rclone"
+      - "traefik.http.services.rclone.loadbalancer.server.port=8080"
+      - "traefik.http.services.rclone.loadbalancer.server.scheme=http"
+      - "com.centurylinklabs.watchtower.enable=true"
+
+networks:
+  traefik_default:
+    external: true
