@@ -1,0 +1,13 @@
+services:
+  secretscanner-local:
+    image: quay.io/deepfenceio/deepfence_secret_scanner_ce:2.2.0
+    container_name: secretscanner-local
+    volumes:
+      - /tmp:/deepfence/mnt
+    command: [
+      "--host-mount-path", "/deepfence/mnt",
+      "--local", "/deepfence/mnt"
+    ]
+    stdin_open: true
+    tty: true
+    restart: "no"
