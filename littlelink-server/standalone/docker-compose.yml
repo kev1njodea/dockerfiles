@@ -46,7 +46,3 @@ services:
       - no-new-privileges:true
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
-
-networks:
-  traefik_default:
-    external: true
