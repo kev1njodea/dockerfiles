@@ -28,4 +28,11 @@ VSCode + Docker extension
 - Use environment variables, and labels
 - Separate `.gitignore` files within directories
 - Continue to learn and implement best practices
-- Document
+- Documentation
+
+## Resources
+
+- https://reddit.com/r/selfhosted
+- https://selfh.st/apps/
+- https://github.com/awesome-selfhosted/awesome-selfhosted
+- https://github.com/veggiemonk/awesome-docker
