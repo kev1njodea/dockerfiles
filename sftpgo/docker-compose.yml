@@ -1,0 +1,34 @@
+services:
+  sftpgo:
+    image: drakkan/sftpgo:latest
+    restart: no
+    user: "1002:1002"
+    volumes:
+      - ./data:/srv/sftpgo
+      - ./home:/var/lib/sftpgo
+    environment:
+      - SFTPGO_HTTPD__BINDINGS__0__PORT=8080
+      - SFTPGO_HTTPD__BINDINGS__0__CERTIFICATE_FILE=/var/lib/sftpgo/certs/cert.pem
+      - SFTPGO_HTTPD__BINDINGS__0__CERTIFICATE_KEY_FILE=/var/lib/sftpgo/certs/cert.key
+      - SFTPGO_HTTPD__BINDINGS__0__BRANDING__WEB_ADMIN__NAME="SFTPGO Admin"
+      - SFTPGO_HTTPD__BINDINGS__0__BRANDING__WEB_CLIENT__SHORT_NAME="Webclient"
+      - SFTPGO_SFTPD__BINDINGS__0__PORT=2022
+      - SFTPGO_WEBDAVD__BINDINGS__0__PORT=10443
+      - SFTPGO_WEBDAVD__CERTIFICATE_FILE=/var/lib/sftpgo/certs/cert.pem
+      - SFTPGO_WEBDAVD__CERTIFICATE_KEY_FILE=/var/lib/sftpgo/certs/cert.key
+      - SFTPGO_MINIO_SHA256_SIMD=1
+    labels:
+        # Web UI
+      - "traefik.http.routers.sftpgo-ui.rule=Host(`sftpgo-ui.kevinjodea.com`)"
+      - "traefik.http.routers.sftpgo-ui.entrypoints=web-secure"
+      - "traefik.http.routers.sftpgo-ui.tls=true"
+      - "traefik.http.routers.sftpgo-ui.service=sftpgo-ui"
+      - "traefik.http.services.sftpgo-ui.loadbalancer.server.port=8080"
+      - "traefik.http.services.sftpgo-ui.loadbalancer.server.scheme=http"
+        # WebDAV
+      - "traefik.http.routers.sftpgo-webdav.rule=Host(`sftpgo-webdav.kevinjodea.com`)"
+      - "traefik.http.routers.sftpgo-webdav.entrypoints=web-secure"
+      - "traefik.http.routers.sftpgo-webdav.tls=true"
+      - "traefik.http.routers.sftpgo-webdav.service=sftpgo-webdav"
+      - "traefik.http.services.sftpgo-webdav.loadbalancer.server.port=10443"
+      - "traefik.http.services.sftpgo-webdav.loadbalancer.server.scheme=http"

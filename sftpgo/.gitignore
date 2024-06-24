@@ -1,0 +1,9 @@
+# kev1njodea/dockerfiles/sftpgo
+
+# Data folder
+data/*
+!data/.gitkeep
+
+# Home folder
+home/*
+!home/.gitkeep
