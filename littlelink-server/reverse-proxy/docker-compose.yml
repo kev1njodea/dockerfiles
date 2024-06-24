@@ -1,0 +1,59 @@
+services:
+  littlelink-server:
+    image: ghcr.io/techno-tim/littlelink-server:latest
+    # dockerhub is also supported timothystewart6/littlelink-server
+    # image: timothystewart6/littlelink-server:latest
+    container_name: littlelink-server
+    networks:
+      - traefik_default
+    environment:
+      - META_TITLE=kevinjodea.com
+      - META_DESCRIPTION=
+      - META_AUTHOR=Kevin James O'Dea
+      - META_KEYWORDS=
+      - LANG=en
+      - META_INDEX_STATUS=all
+      - OG_SITE_NAME=kevinjodea.com
+      - OG_TITLE=kevinjodea.com
+      - OG_DESCRIPTION=
+      - OG_URL=https://kevinjodea.com
+      - OG_IMAGE=
+      - OG_IMAGE_WIDTH=400
+      - OG_IMAGE_HEIGHT=400
+      # - GA_TRACKING_ID=G-XXXXXXXXXX
+      - THEME=Dark
+      - FAVICON_URL=
+      - AVATAR_URL=
+      - AVATAR_2X_URL=
+      - AVATAR_ALT=
+      - NAME=
+      - BIO=
+      # use ENV variable names for order, listed buttons will be boosted to the top
+      - BUTTON_ORDER=GITHUB,LINKED_IN,INSTAGRAM
+      # you can render an unlimited amount of custom buttons by adding
+      # the CUSTOM_BUTTON_* variables and by using a comma as a separator.
+      # - CUSTOM_BUTTON_TEXT=
+      # - CUSTOM_BUTTON_URL=
+      # - CUSTOM_BUTTON_COLOR=
+      # - CUSTOM_BUTTON_TEXT_COLOR=
+      # - CUSTOM_BUTTON_ALT_TEXT=
+      # - CUSTOM_BUTTON_NAME=
+      # - CUSTOM_BUTTON_ICON=
+      - GITHUB=
+      - LINKED_IN=
+      - INSTAGRAM=
+      - FOOTER=
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      - "traefik.http.routers.littlelink.rule=Host(`kevinjodea.com`)"
+      - "traefik.http.routers.littlelink.entrypoints=web-secure"
+      - "traefik.http.routers.littlelink.tls=true"
+      - "traefik.http.services.littlelink.loadbalancer.server.port=3000"
+      - "traefik.http.services.littlelink.loadbalancer.server.scheme=http"
+      - "com.centurylinklabs.watchtower.enable=true"
+
+networks:
+  traefik_default:
+    external: true
