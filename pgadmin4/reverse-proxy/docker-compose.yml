@@ -1,0 +1,39 @@
+services:
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    networks:
+      - postgres_demo
+      - traefik_default
+    volumes:
+      - ./auth:/run/secrets
+      - ./data:/var/lib/pgadmin
+      - ./mnt:/mnt
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=/run/secrets/pga4_user
+      - PGADMIN_DEFAULT_PASSWORD_FILE=/run/secrets/pga4_pw
+      - PGADMIN_LISTEN_PORT=8080
+      # - SCRIPT_NAME=/pgadmin4
+      - PGADMIN_DISABLE_POSTFIX=yes
+    secrets:
+      - pga4_user
+      - pga4_pw
+    labels:
+      - "traefik.http.routers.pgadmin.rule=Host(`pgadmin.kevinjodea.com`)"
+      - "traefik.http.routers.pgadmin.entrypoints=web-secure"
+      - "traefik.http.routers.pgadmin.tls=true"
+      - "traefik.http.routers.pgadmin.service=pgadmin"
+      - "traefik.http.services.pgadmin.loadbalancer.server.port=8080"
+      - "traefik.http.services.pgadmin.loadbalancer.server.scheme=http"
+      - "com.centurylinklabs.watchtower.enable=true"
+
+secrets:
+    pga4_user:
+      file: ./auth/pga4_user.txt
+    pga4_pw:
+      file: ./auth/pga4_pw.txt
+
+networks:
+  postgres_demo:
+    external: true
+  traefik_default:
+    external: true

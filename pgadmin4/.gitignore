@@ -1,0 +1,19 @@
+# kev1njodea/dockerfiles/pgadmin4/.gitignore
+
+# Standalone
+standalone/auth/*
+!standalone/auth/pga4_user.example.txt
+!standalone/auth/pga4_pw.example.txt
+standalone/data/*
+!standalone/data/.gitkeep
+standalone/mnt/*
+!standalone/mnt/.gitkeep
+
+# Reverse Proxy
+reverse-proxy/auth/*
+!reverse-proxy/auth/pga4_user.example.txt
+!reverse-proxy/auth/pga4_pw.example.txt
+reverse-proxy/data/*
+!reverse-proxy/data/.gitkeep
+reverse-proxy/mnt/*
+!reverse-proxy/mnt/.gitkeep
