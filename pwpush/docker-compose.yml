@@ -1,0 +1,23 @@
+services:
+  pwpush:
+    image: pglombardo/pwpush:latest
+    container_name: pwpush
+    networks:
+      - traefik_default
+    environment:
+      - PWP__BRAND__TITLE=
+      - PWP__BRAND__TAGLINE=
+      - PWP__BRAND__DISCLAIMER=
+      - PWP__BRAND__SHOW_FOOTER_MENU=false
+      - PWP__THEME=slate
+      - PWP_PRECOMPILE=true
+    labels:
+      - "traefik.http.routers.pwpush.rule=Host(`pwpush.kevinjodea.com`)"
+      - "traefik.http.routers.pwpush.entrypoints=web-secure"
+      - "traefik.http.routers.pwpush.tls=true"
+      - "traefik.http.services.pwpush.loadbalancer.server.port=5100"
+      - "traefik.http.services.pwpush.loadbalancer.server.scheme=http"
+
+networks:
+  traefik_default:
+    external: true
