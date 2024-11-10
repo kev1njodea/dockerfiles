@@ -52,9 +52,9 @@ networks:
   traefik_proxy:
     external: true
 
-  container1_net: # Comment out if using proxy network
-    name: container1_net
-    driver: bridge
+  # container1_net:
+  #   name: container1_net
+  #   driver: bridge
 
 volumes:
   container1_vol1:
