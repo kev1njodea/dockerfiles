@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:16.3-bookworm
+    image: postgres:17.0-bookworm
     container_name: postgres_demo
     restart: always
     networks:

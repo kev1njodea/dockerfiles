@@ -1,6 +1,10 @@
-# kev1njodea/dockerfiles/postgres/.gitignore
+# kev1njodea/dockerfiles/postgres
 
-## Secrets
-auth/pg_db.txt
-auth/pg_user.txt
-auth/pg_pw.txt
+# Authorization/Secrets folder
+auth/*/*
+!auth/**/.gitkeep
+!auth/**/*.example.txt
+
+# Data folder
+data/*/*
+!data/**/.gitkeep
