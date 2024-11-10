@@ -1,3 +1,13 @@
-# docker/homepage
+# kev1njodea/dockerfiles/homepage
 
-logs
+# Configurations folder
+# cfg/*
+# !cfg/.gitkeep
+
+# Data folder
+data/*
+!data/.gitkeep
+
+# Logs folder
+logs/*
+!logs/.gitkeep

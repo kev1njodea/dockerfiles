@@ -6,6 +6,7 @@ services:
       - traefik_default
     volumes:
       - ./cfg:/app/config
+      - ./logs:/app/config/logs
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       PUID: $PUID
