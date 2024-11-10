@@ -3,10 +3,6 @@
 - https://github.com/containrrr/watchtower
 - https://containrrr.dev/watchtower/
 
-## Notes
-
-I only run this manually at the moment.
-
 ## Arguments
 
 - https://containrrr.dev/watchtower/arguments/

@@ -1,10 +1,20 @@
 services:
   watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
-    restart: no
+    image: containrrr/watchtower:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    command: --run-once --cleanup --label-enable
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      # Monitor and update containers that have a com.centurylinklabs.watchtower.enable label set to true.
+      - WATCHTOWER_LABEL_ENABLE=true
+      # Removes old images after updating.
+      - WATCHTOWER_CLEANUP=true
+      # Run an update attempt against a container name list one time immediately and exit.
+      - WATCHTOWER_RUN_ONCE=true
+      # Enable debug mode with verbose logging.
+      - WATCHTOWER_DEBUG=true
+      # Will also include created and exited containers.
+      - WATCHTOWER_INCLUDE_STOPPED=false
+      # Will only monitor for new images, send notifications and invoke the pre-check/post-check hooks, but will not update the containers.
+      - WATCHTOWER_MONITOR_ONLY=false
+      # Monitor and update containers whose names are not in a given set of names.
+      # - WATCHTOWER_DISABLE_CONTAINERS=
