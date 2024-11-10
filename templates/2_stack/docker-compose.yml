@@ -13,10 +13,10 @@ services:
     #   - "8080:8080"
     # user: 1001:1001
     volumes:
-      - .auth/container1/:/
-      - .cfg/container1/:/
-      - .data/container1/:/
-      - .log/container1/:/
+      - .auth/container1:/
+      - .cfg/container1:/
+      - .data/container1:/
+      - .log/container1:/
       - container1_vol1:/
       - container1_vol2:/
       # - /var/run/docker.sock:/var/run/docker.sock
@@ -47,11 +47,11 @@ services:
     networks:
       - container1_net
     # user: 1001:1001
-    # volumes:
-      - .auth/container2/:/
-      - .cfg/container2/:/
-      - .data/container2/:/
-      - .log/container2/:/
+    volumes:
+      - .auth/container2:/
+      - .cfg/container2:/
+      - .data/container2:/
+      - .log/container2:/
       # - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - ENVAR=
