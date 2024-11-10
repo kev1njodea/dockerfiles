@@ -1,5 +1,3 @@
-# kev1njodea/dockerfiles/template/.gitignore
-
 # Ignore files in a folder
 # FOLDER_NAME/*
 # Keep the folder itself
@@ -30,3 +28,7 @@ files/*
 # log folder
 log/*
 !log/.gitkeep
+
+# tmp folder
+tmp/*
+!tmp/.gitkeep

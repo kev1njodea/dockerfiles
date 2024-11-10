@@ -1,14 +1,14 @@
-# kev1njodea/dockerfiles/template/docker-compose.yml
+# 1 Container, Using Proxy Network (External) or Isolated Network
 
 services:
   container1:
-    image: :latest
+    image: baseImage1:latest
     # build: .
     container_name: container1
     restart: always # no/on-failure/unless-stopped
     networks:
       - traefik_proxy
-      - container1_net
+    # - container1_net
     # ports:
     #   - "8080:8080"
     # user: 1001:1001
@@ -21,22 +21,22 @@ services:
       - container1_vol2:/
       # - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      # -
-      - ENVAR1=/run/secrets/secret_1
-      - ENVAR2=/run/secrets/secret_2
-      - ENVAR3=/run/secrets/secret_3
+      - ENVAR=
+      - ENVAR_FILE=/run/secrets/secret_1
+      - ENVAR_FILE=/run/secrets/secret_2
+      - ENVAR_FILE=/run/secrets/secret_3
     secrets:
       - secret_1
       - secret_2
       - secret_3
     labels:
       # Traefik Reverse Proxy
-      - "traefik.http.routers.containerapp.rule=Host(`app.container.xyz`)"
-      - "traefik.http.routers.containerapp.entrypoints=web-secure"
-      - "traefik.http.routers.containerapp.tls=true"
-      - "traefik.http.routers.containerapp.service=containerapp"
-      - "traefik.http.services.containerapp.loadbalancer.server.port=8080"
-      - "traefik.http.services.containerapp.loadbalancer.server.scheme=http"
+      - "traefik.http.routers.container1.rule=Host(`app.container1.xyz`)"
+      - "traefik.http.routers.container1.entrypoints=web-secure"
+      - "traefik.http.routers.container1.tls=true"
+      - "traefik.http.routers.container1.service=container1"
+      - "traefik.http.services.container1.loadbalancer.server.port=8080"
+      - "traefik.http.services.container1.loadbalancer.server.scheme=http"
       # Image updates via Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
 
@@ -52,7 +52,7 @@ networks:
   traefik_proxy:
     external: true
 
-  container1_net:
+  container1_net: # Comment out if using proxy network
     name: container1_net
     driver: bridge
 

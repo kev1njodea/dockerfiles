@@ -1,4 +1,4 @@
-# kev1njodea/dockerfiles/template/README.md
+# kev1njodea/dockerfiles/templates
 
 ## Overview
 

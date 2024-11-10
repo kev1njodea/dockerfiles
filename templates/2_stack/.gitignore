@@ -1,0 +1,34 @@
+# Ignore files in subfolders
+# FOLDER_NAME/*/*
+# Keep the subfolder itself
+# !FOLDER_NAME/**/.gitkeep
+
+# auth folder
+auth/*/*
+!auth/**/.gitkeep
+!auth/**/*.example.txt
+
+# cfg folder
+cfg/*/*
+!cfg/**/.gitkeep
+!cfg/**/*.example.yml
+
+# data folder
+data/*/*
+!data/**/.gitkeep
+
+# docs folder
+# docs/*
+# !docs/.gitkeep
+
+# files folder
+files/*/*
+!files/**/.gitkeep
+
+# log folder
+log/*/*
+!log/**/.gitkeep
+
+# tmp folder
+tmp/*/*
+!tmp/**/.gitkeep

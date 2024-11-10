@@ -1,0 +1,98 @@
+# 2 Containers, 1 using Proxy Network (External), 1 using Isolated Network
+
+services:
+  container1:
+    image: baseImage1:latest
+    # build: .
+    container_name: container1
+    restart: always # no/on-failure/unless-stopped
+    networks:
+      - traefik_proxy
+      - container1_net
+    # ports:
+    #   - "8080:8080"
+    # user: 1001:1001
+    volumes:
+      - .auth/container1/:/
+      - .cfg/container1/:/
+      - .data/container1/:/
+      - .log/container1/:/
+      - container1_vol1:/
+      - container1_vol2:/
+      # - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - ENVAR=
+      - ENVAR_FILE=/run/secrets/secret_1
+      - ENVAR_FILE=/run/secrets/secret_2
+      - ENVAR_FILE=/run/secrets/secret_3
+    secrets:
+      - secret_1
+      - secret_2
+      - secret_3
+    labels:
+      # Traefik Reverse Proxy
+      - "traefik.http.routers.container-stack.rule=Host(`app.container-stack.xyz`)"
+      - "traefik.http.routers.container-stack.entrypoints=web-secure"
+      - "traefik.http.routers.container-stack.tls=true"
+      - "traefik.http.routers.container-stack.service=container-stack"
+      - "traefik.http.services.container-stack.loadbalancer.server.port=8080"
+      - "traefik.http.services.container-stack.loadbalancer.server.scheme=http"
+      # Image updates via Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  container2:
+    image: baseImage2:latest
+    container_name: container2
+    restart: always
+    networks:
+      - container1_net
+    # user: 1001:1001
+    # volumes:
+      - .auth/container2/:/
+      - .cfg/container2/:/
+      - .data/container2/:/
+      - .log/container2/:/
+      # - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - ENVAR=
+      - ENVAR_FILE=/run/secrets/secret_4
+      - ENVAR_FILE=/run/secrets/secret_5
+      - ENVAR_FILE=/run/secrets/secret_6
+    secrets:
+      - secret_4
+      - secret_5
+      - secret_6
+    labels:
+      # Image updates via Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+
+secrets:
+    secret_1:
+      file: ./auth/container1/secret_1.txt
+    secret_2:
+      file: ./auth/container1/secret_2.txt
+    secret_3:
+      file: ./auth/container1/secret_3.txt
+    secret_4:
+      file: ./auth/container2/secret_4.txt
+    secret_5:
+      file: ./auth/container2/secret_5.txt
+    secret_6:
+      file: ./auth/container2/secret_6.txt
+
+networks:
+  traefik_proxy:
+    external: true
+
+  container1_net:
+    name: container1_net
+    driver: bridge
+
+volumes:
+  container1_vol1:
+    name: container1_vol1
+    driver: local
+
+  container1_vol2:
+    name: container1_vol2
+    driver: local

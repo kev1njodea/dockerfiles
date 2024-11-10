@@ -1,7 +1,5 @@
-# kev1njodea/dockerfiles/template/Dockerfile
-
 # Set the base image and version
-FROM baseImage:latest
+FROM baseImage1:latest
 
 # Update packages, install packages, and clean up
 RUN apt-get update \
