@@ -1,0 +1,11 @@
+services:
+  actual-budget:
+    image: actualbudget/actual-server:latest
+    container_name: actual-budget
+    restart: no
+    ports:
+      - "5006:5006"
+    volumes:
+      - ./data:/data
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"

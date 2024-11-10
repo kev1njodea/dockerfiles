@@ -1,0 +1,5 @@
+# kev1njodea/dockerfiles/actual-budget
+
+# Data folder
+data/*
+!data/.gitkeep
