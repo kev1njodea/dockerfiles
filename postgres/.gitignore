@@ -1,10 +1,10 @@
 # kev1njodea/dockerfiles/postgres
 
 # Authorization/Secrets folder
-auth/*/*
-!auth/**/.gitkeep
-!auth/**/*.example.txt
+auth/*
+!auth/.gitkeep
+!auth/*.example.txt
 
 # Data folder
-data/*/*
-!data/**/.gitkeep
+data/*
+!data/.gitkeep
