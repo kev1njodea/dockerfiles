@@ -1,1 +1,9 @@
-# kev1njodea/grafana/.gitignore
+# kev1njodea/grafana
+
+# # Configurations folder
+# cfg/*
+# !cfg/.gitkeep
+
+# Data folder
+data/*
+!data/.gitkeep
