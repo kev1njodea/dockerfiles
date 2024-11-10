@@ -1,0 +1,32 @@
+# kev1njodea/dockerfiles/template/.gitignore
+
+# Ignore files in a folder
+# FOLDER_NAME/*
+# Keep the folder itself
+# !FOLDER_NAME/.gitkeep
+
+# auth folder
+auth/*
+!auth/.gitkeep
+!auth/*.example.txt
+
+# cfg folder
+cfg/*
+!cfg/.gitkeep
+!cfg/*.example.yml
+
+# data folder
+data/*
+!data/.gitkeep
+
+# docs folder
+# docs/*
+# !docs/.gitkeep
+
+# files folder
+files/*
+!files/.gitkeep
+
+# log folder
+log/*
+!log/.gitkeep
