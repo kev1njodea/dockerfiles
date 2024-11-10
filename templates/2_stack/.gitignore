@@ -3,32 +3,32 @@
 # Keep the subfolder itself
 # !FOLDER_NAME/**/.gitkeep
 
-# auth folder
+# Authorization/Secrets folder
 auth/*/*
 !auth/**/.gitkeep
 !auth/**/*.example.txt
 
-# cfg folder
+# Configurations folder
 cfg/*/*
 !cfg/**/.gitkeep
 !cfg/**/*.example.yml
 
-# data folder
+# Data folder
 data/*/*
 !data/**/.gitkeep
 
-# docs folder
+# Docs folder
 # docs/*
 # !docs/.gitkeep
 
-# files folder
+# Files folder
 files/*/*
 !files/**/.gitkeep
 
-# log folder
-log/*/*
-!log/**/.gitkeep
+# Logs folder
+logs/*/*
+!logs/**/.gitkeep
 
-# tmp folder
+# Temporary files folder
 tmp/*/*
 !tmp/**/.gitkeep
