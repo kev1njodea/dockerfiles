@@ -10,6 +10,8 @@ services:
         - 'ollama:/root/.ollama'
     environment:
       - WEBUI_AUTH=false
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
 volumes:
   open-webui:
