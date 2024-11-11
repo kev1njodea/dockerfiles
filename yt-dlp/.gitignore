@@ -1,0 +1,22 @@
+# kev1njodea/dockerfiles/yt-dlp
+
+# Environment file
+.env
+
+# Data folder
+data/*
+!data/.gitkeep
+
+# Files folder
+files/*
+!files/.gitkeep
+!files/requirements.txt
+!files/yt-dlp.py
+
+# Logs folder
+logs/*
+!logs/.gitkeep
+
+# Temp folder
+tmp/*
+!tmp/.gitkeep
