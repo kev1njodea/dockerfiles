@@ -1,0 +1,63 @@
+services:
+  traefik:
+    image: traefik:latest
+    restart: always # Always restart the container if it stops
+    networks:
+      - traefik_proxy # Connect to the traefik_proxy network
+    command:
+      # Define entrypoints for HTTP and HTTPS
+      - --entrypoints.web.address=:80
+      - --entrypoints.web-secure.address=:443
+
+      # Enable Docker as a provider to dynamically configure Traefik
+      - --providers.docker=true
+
+      # Enable file provider to load additional configurations from /cfg/
+      - --providers.file.directory=/cfg/
+      - --providers.file.watch=true # Watch for changes in the configuration directory
+
+      # Enable Traefik's API and dashboard
+      - --api=true
+
+    ports:
+      - "80:80" # Expose port 80 for HTTP
+      - "443:443" # Expose port 443 for HTTPS
+
+    volumes:
+      # Mount directories for authentication, configuration, and certificates
+      - ./auth:/var/auth:ro
+      - ./cfg:/cfg:ro
+      - ./files/certs:/certs:ro
+
+      # Mount Docker socket to allow Traefik to listen to Docker events
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+    labels:
+      # Redirect HTTP requests to HTTPS for the Traefik dashboard
+      - "traefik.http.routers.traefik-redirect.rule=Host(`traefik.kevinjodea.com`)"
+      - "traefik.http.routers.traefik-redirect.entrypoints=web"
+      - "traefik.http.routers.traefik-redirect.middlewares=https-redirect"
+
+      # Define middleware to handle HTTPS redirection
+      - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
+
+      # Configure the Traefik dashboard router
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.kevinjodea.com`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      - "traefik.http.routers.dashboard.entrypoints=web-secure" # Use the secure entrypoint
+      - "traefik.http.routers.dashboard.tls=true" # Enable TLS for the dashboard
+      - "traefik.http.routers.dashboard.service=api@internal" # Use the internal Traefik API service
+      - "traefik.http.routers.dashboard.middlewares=auth" # Apply authentication middleware
+
+      # Define authentication middleware using a basic auth file
+      - "traefik.http.middlewares.auth.basicauth.usersfile=/var/auth/.htpasswd"
+
+      # Configure the load balancer for the dashboard service
+      - "traefik.http.services.dashboard.loadbalancer.server.port=8080"
+      - "traefik.http.services.dashboard.loadbalancer.server.scheme=https"
+
+      # Enable Watchtower for automatic container updates
+      - "com.centurylinklabs.watchtower.enable=true"
+
+networks:
+  traefik_proxy:
+    external: true  # Use the externally created traefik_proxy network

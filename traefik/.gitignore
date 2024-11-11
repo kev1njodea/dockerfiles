@@ -1,0 +1,15 @@
+# kev1njodea/dockerfiles/traefik
+
+# Authorization/Secrets folder
+auth/*
+!auth/.gitkeep
+!auth/*.example
+
+# Configurations folder
+cfg/*
+!cfg/.gitkeep
+!cfg/*.example.yml
+
+# Files folder
+files/*/*
+!files/**/.gitkeep
