@@ -1,0 +1,63 @@
+services:
+  redmine_app:
+    build: .
+    restart: unless-stopped
+    networks:
+      - redmine
+    ports:
+      - 8080:3000
+    user: "1000:1000"
+    volumes:
+      - ./assets:/usr/src/redmine/public/assets
+      - ./files:/usr/src/redmine/files
+      - ./log:/usr/src/redmine/log
+      - ./plugins:/usr/src/redmine/plugins
+      - ./repositories:/usr/src/redmine/repositories
+      - ./themes:/usr/src/redmine/public/themes
+    depends_on:
+      - redmine_db
+    environment:
+      - ALLOW_EMPTY_PASSWORD=no
+      - REDMINE_DB_POSTGRES=redmine_db
+      - REDMINE_DB_DATABASE_FILE=/run/secrets/pg_db
+      - REDMINE_DB_USERNAME_FILE=/run/secrets/pg_user
+      - REDMINE_DB_PASSWORD_FILE=/run/secrets/pg_pw
+      # - REDMINE_DB_ENCODING=utf8
+      # - REDMINE_NO_DB_MIGRATE=true
+      # - REDMINE_PLUGINS_MIGRATE=true
+    secrets:
+      - pg_db
+      - pg_user
+      - pg_pw
+
+  redmine_db:
+    image: postgres:17-bookworm
+    restart: unless-stopped
+    networks:
+      - redmine
+    user: "1000:1000"
+    volumes:
+      - ./db/pg:/var/lib/postgresql/data
+    environment:
+      - ALLOW_EMPTY_PASSWORD=no
+      - POSTGRES_DB_FILE=/run/secrets/pg_db
+      - POSTGRES_USER_FILE=/run/secrets/pg_user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/pg_pw
+    secrets:
+      - pg_db
+      - pg_user
+      - pg_pw
+    labels:
+      - "com.centurylinklabs.watchtower.monitor-only=true"
+
+secrets:
+  pg_db:
+    file: ./auth/pg_db.txt
+  pg_user:
+    file: ./auth/pg_user.txt
+  pg_pw:
+    file: ./auth/pg_pw.txt
+
+networks:
+  redmine:
+    driver: bridge
