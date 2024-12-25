@@ -1,0 +1,37 @@
+# kev1njodea/dockerfiles/redmine/standalone
+
+# Redmine Assets Directory
+assets/*
+!assets/*.gitkeep
+
+# Postgres Auth Files
+auth/*
+!auth/*.example
+
+# Postgres DB Directory
+db/*
+!db/.gitkeep
+
+# Redmine Files
+files/*
+!files/.gitkeep
+
+# Logs Directory
+log/*
+!log/.gitkeep
+
+# Redmine Plugins
+plugins/*
+!plugins/.gitkeep
+
+# Git Repositories
+repositories/*
+!repositories/.gitkeep
+
+# Redmine Themes
+themes/*
+!themes/.gitkeep
+
+# Temp files
+tmp/*
+!tmp/.gitkeep
